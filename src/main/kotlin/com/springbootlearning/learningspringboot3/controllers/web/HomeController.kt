@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @Controller
 @RequestMapping("/")
@@ -26,9 +28,9 @@ class HomeController {
     @PostMapping("/new-employee")
     fun newEmployee(
         @ModelAttribute("newEmployee") newEmployee: Employee
-    ): Flow<String> = flow {
+    ): Mono<String> {
         DATABASE[newEmployee.name] = newEmployee
-        emit("redirect:/")
+        return Mono.just("redirect:/")
     }
 
 }
